@@ -1,0 +1,16 @@
+.loginBtn{
+  margin: 10px;
+  padding: 10px;
+  border-color: white;
+  background-color: black;
+  border-radius: 5px;
+}
+.loginBtn:hover{
+  background-color: white;
+  color: black;
+  border-color: black;
+}
+.userData{
+  padding-top: 300px;
+  color: white;
+}
