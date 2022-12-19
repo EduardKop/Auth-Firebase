@@ -16,12 +16,27 @@ function AuthButtons() {
     },[user])
     const dispatch = useDispatch()
     const userName = useSelector(state => state.userName)
-  
+    const isAuthorized = useSelector(state => state.isAuthorized);
+
     const login = async()=>{
       const result = await signInWithPopup(auth, googleAuth);
       const data = result.user
-      console.log(data)
-      dispatch({type:'SIGN_IN', name: data.displayName, id: data.uid})
+      
+      dispatch({
+        type:'SIGN_IN', 
+        name: data.displayName, 
+        id: data.uid
+      });
+      dispatch({
+        type: 'CREATE_BLOG_POST',
+        title:'sdsds',
+        content:"sdsdsd"
+      });
+      dispatch({ 
+        type: 'AUTHORIZE' 
+      });
+      console.log(isAuthorized)
+
       
       const referenceRoom = ref(db, 'users/' + `${data.uid}/`);
       set(referenceRoom,{
@@ -30,19 +45,32 @@ function AuthButtons() {
     }
   
     const logOut = async() =>{
-      const result = await auth.signOut()
       
-      dispatch({type:'SIGN_OUT', name: '', id: ''})
+        auth.signOut().then(function() {
+        dispatch({
+          type:'SIGN_OUT', name: '', id: ''
+          })
+        dispatch({ 
+          type: 'EXIT' 
+          });
+          console.log(isAuthorized)
+      }).catch(function(error) {
+          console.log(error)
+      });
+      
 
     }
   
-   
   
     return (
-        <>
-        <button className={styles.loginBtn} onClick={login}>SignIn</button>
-        <button className={styles.loginBtn} onClick={logOut}>SignOut</button>
-        </>
+        <div>
+          {isAuthorized ? (
+            <button onClick={logOut}>Exit</button>
+          ) : (
+            <button onClick={login}>Authorize</button>
+          )}
+        </div>
+      
     )
 }
 

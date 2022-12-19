@@ -10,6 +10,10 @@
   color: black;
   border-color: black;
 }
+
+.loginBtnNone{
+  display: none;
+}
 .userData{
   padding-top: 300px;
   color: white;
